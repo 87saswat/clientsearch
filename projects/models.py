@@ -4,10 +4,14 @@ from pyexpat import model
 from django.db import models
 import uuid
 
+from users.models import Profile
+
 # Create your models here.
 
 
 class Projects(models.Model):
+    owner = models.ForeignKey(
+        Profile, null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True, null=True)
     featured_image = models.ImageField(
