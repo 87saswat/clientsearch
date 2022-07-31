@@ -1,13 +1,12 @@
-from multiprocessing import context
-import re
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Projects
 from .forms import ProjectForm
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
-
+@login_required(login_url="login")
 def createProject(request):
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES)
@@ -19,6 +18,7 @@ def createProject(request):
     return render(request, 'projects/project-form.html', context)
 
 
+@login_required(login_url="login")
 def updateProject(request, pk):
     project = Projects.objects.get(id=pk)
     form = ProjectForm(instance=project)
@@ -32,6 +32,7 @@ def updateProject(request, pk):
     return render(request, 'projects/project-form.html', context)
 
 
+@login_required(login_url="login")
 def deleteProject(request, pk):
     project = Projects.objects.get(id=pk)
     if request.method == 'POST':
